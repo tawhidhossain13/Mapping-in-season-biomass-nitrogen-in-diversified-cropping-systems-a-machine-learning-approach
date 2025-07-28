@@ -17,13 +17,13 @@ This project uses high-resolution satellite imagery, soil, topographic, climate,
 ```
 .
 ├── data/
-│   ├── rasters/                # PlanetScope and Sentinel-2 images, DEM, SWC (as .tif)
+│   ├── rasters/                # PlanetScope, DEM,slope,aspect (as .tif) for producing maps using trained model
 │   ├── shapefiles/             # Field boundaries, clusters, etc. (.shp, .shx, .dbf, .prj)
-│   └── Dat_IPP-N_TH.xlsx       # Ground truth biomass and nitrogen data
+│   └── Dat_IPP-N_TH.xlsx       # Ground truth biomass and nitrogen data, the main dataset used for developing the model
 ├── notebooks/
-│   ├── 2nd_paper_RF.ipynb      # Random Forest models (with/without soil data)
-│   ├── 2nd_paper_XGB.ipynb     # XGBoost models
-│   └── 2nd_paper_map_production_best_models.ipynb  # Generating spatial prediction maps
+│   ├── 2nd_paper_RF.ipynb      # Random Forest models (with/without soil data): in the workflow, it might be possible that soil variables are not included in the currrent set up, but user can load them by typing the variables name
+│   ├── 2nd_paper_XGB.ipynb     # XGBoost models: in the workflow, it might be possible that soil variables are not included in the currrent set up, but user can load them by typing the variables name
+│   └── 2nd_paper_map_production_best_models.ipynb  # Generating spatial prediction maps for a any specific dates using single planet imagery, corresponding crop and climate variable values and topographic variables.
 ├── README.md                   # Project overview and instructions
 └── requirements.txt            # Python packages used
 ```
@@ -32,9 +32,13 @@ This project uses high-resolution satellite imagery, soil, topographic, climate,
 
 ## 🧪 Key Models
 
-- **RF-2**: Random Forest model predicting biomass nitrogen **without soil variables** (best performance)
-- **RF-4**: Random Forest model predicting above-ground biomass **without soil variables**
-- **XGB-1 to XGB-4**: Alternative XGBoost models (slightly lower accuracy)
+- RF-1 and XGB-1 predict biomass N and include soil variables.
+- RF-2 and XGB-2 predict biomass N but exclude soil variables.
+- RF-3 and XGB-3 predict above-ground biomass and include soil variables.
+- RF-4 and XGB-4 predict above-ground biomass but exclude soil variables.
+- <img width="930" height="547" alt="image" src="https://github.com/user-attachments/assets/196ecc36-7f59-408c-b76e-7665e4c8b3c0" />
+
+These model labels will be used consistently throughout the following sections to distinguish between prediction targets and the inclusion or exclusion of soil data.
 
 All models were trained with spatial cross-validation using **KMeans clustering** to ensure independence between training and test sets.
 
@@ -92,8 +96,8 @@ If you use this code or data, please cite:
 
 **Md Tawhid Hossain**  
 Leibniz-Centre for Agricultural Landscape Research (ZALF)  
-Email: your_email@example.com  
-GitHub: your_github_username
+Email: mdtawhid.hossain@zalf.de or tawhidhossain13@gmail.com  
+GitHub: Tawhidhossain13
 
 ---
 
